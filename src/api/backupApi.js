@@ -6,4 +6,13 @@ async function createBackupApi() {
     return response.data
 }
 
-export {createBackupApi}
+async function getBackupApi() {
+    const url = '/api/game/backup'
+    const response = await http.get(url)
+    return response.data
+}
+
+export {
+    createBackupApi,
+    getBackupApi
+}

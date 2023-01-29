@@ -1,20 +1,5 @@
-// const proxy = require('http-proxy-middleware');
-// module.exports = function (app) {
-//     app.use('/dst', proxy({
-//         target: 'https://dst.liuyh.com/',//目标地址
-//         secure: false,
-//         changeOrigin: true,
-//         pathRewrite: {
-//             "^/user": "/user"
-//         },
-//     }));
-// };
 const { createProxyMiddleware } = require('http-proxy-middleware');
 module.exports = function (app) {
-    // app.use(createProxyMiddleware('/api', {
-    //     "target": "https://getman.cn",
-    //     "changeOrigin": true,
-    // }));
 
     app.use(createProxyMiddleware('/dst', {
         target: "https://dst.liuyh.com/",
@@ -30,13 +15,6 @@ module.exports = function (app) {
         // pathRewrite: {
         //     '^/dst': ''
         // },
-    }))
-    app.use(createProxyMiddleware('/open', {
-        target: "http://localhost:8888",
-        changeOrigin: true,
-        pathRewrite: {
-            '^/open': ''
-        },
     }))
     app.use(createProxyMiddleware('/version', {
         target: "http://ver.tugos.cn",

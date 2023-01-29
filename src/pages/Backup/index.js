@@ -2,6 +2,8 @@ import { Space, Table, Upload, message, Divider, Button } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 
+import { getBackupApi } from '../../api/backupApi';
+
 const columns = [
     {
         title: '存档名称',
@@ -33,16 +35,6 @@ const columns = [
         ),
     },
 ];
-const data = [
-    {
-        key: '1',
-        fileName: '这是一个测试房间n',
-        fileSize: 32000,
-        createdDate: 'New York No. 1 Lake Park',
-    }
-];
-
-
 
 const buttonStyle = {
     margin: '0 8px',
@@ -77,17 +69,30 @@ const props = {
 
 const Backup = () => {
 
-    const [selectionItem, setSelectionItems] = useState({})
+    //选中的备份文件
+    const [selectBackup, setSelectBackup] = useState({})
     const [backupSize, setBackupSize] = useState(0)
 
-    useEffect(()=>{
+    const [backupData, setBackupData] = useState([{}])
+
+    useEffect(() => {
         setBackupSize(1.1)
+        getBackupApi()
+            .then(data => {
+                const backupList = data.data || []
+                setBackupData(backupList)
+                const totalSize = backupList
+                    .map(backup => backup.fileSize)
+                    .reduce((prev, curr) => !isNaN(Number(curr)) ? prev + curr : prev, 0) / 1024 / 1024 / 1024
+                    
+                setBackupSize(totalSize.toFixed(4))
+            })
     }, [])
 
     const rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => {
             console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
-            setSelectionItems(selectedRows)
+            setSelectBackup(selectedRows)
         },
         getCheckboxProps: (record) => ({
             disabled: record.name === 'Disabled User',
@@ -96,13 +101,13 @@ const Backup = () => {
         }),
     }
 
-    const deleteSelectBackup = ()=> {
-        const length = selectionItem.length
-        if(length < 1) {
+    const deleteSelectBackup = () => {
+        const length = selectBackup.length
+        if (length < 1) {
             message.warning("请选择存档")
             return
         }
-        console.log('delete', selectionItem);
+        console.log('delete', selectBackup);
     }
 
     return (
@@ -119,7 +124,7 @@ const Backup = () => {
             <Divider />
             <Table
                 columns={columns}
-                dataSource={data}
+                dataSource={backupData}
                 rowSelection={{
                     type: 'checkbox',
                     ...rowSelection,
