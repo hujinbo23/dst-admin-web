@@ -5,9 +5,8 @@ import System from "../pages/System";
 import Backup from "../pages/Backup";
 
 
-import Players from "../component/dst/Players";
-
-import WordSettings from "../component/dst/homeSetting/WordSetting";
+// import Players from "../component/dst/Players";
+// import WordSettings from "../component/dst/homeSetting/WordSetting";
 
 import { ProfileOutlined, 
     TeamOutlined, 
@@ -68,16 +67,16 @@ export const menus = [
               name: '饥荒服务器列表',
               element: <DstServerList />
             },
-            {
-                path: 'dst/player',
-                name: '饥荒玩家列表',
-                element: <Players />
-            },
-            {
-                path: 'dst/setting',
-                name: '饥荒森林世界设置',
-                element: <WordSettings />
-            }
+            // {
+            //     path: 'dst/player',
+            //     name: '饥荒玩家列表',
+            //     element: <Players />
+            // },
+            // {
+            //     path: 'dst/setting',
+            //     name: '饥荒森林世界设置',
+            //     element: <WordSettings />
+            // }
           ],
         
     },
